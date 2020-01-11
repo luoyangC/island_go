@@ -23,6 +23,8 @@ func NewRouter() *gin.Engine {
 	{
 		// 获取验证码
 		v1.POST("code", api.SendCode)
+		// 获取定场诗
+		v1.GET("sentence", api.RandomSentence)
 
 		// 用户登录
 		v1.POST("user/register", api.UserRegister)

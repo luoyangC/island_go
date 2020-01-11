@@ -42,6 +42,28 @@
                 }
             }
         },
+        "/api/v1/sentence": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "通用"
+                ],
+                "summary": "随机获取定场诗",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.SentenceResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/topic": {
             "post": {
                 "security": [
@@ -92,7 +114,7 @@
                 "tags": [
                     "话题"
                 ],
-                "summary": "指定话题详情",
+                "summary": "话题详情",
                 "parameters": [
                     {
                         "type": "integer",
@@ -463,6 +485,34 @@
                 "data": {
                     "description": "响应数据",
                     "type": "object"
+                },
+                "message": {
+                    "description": "自定义消息",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "serializer.Sentence": {
+            "type": "object",
+            "properties": {
+                "lines": {
+                    "description": "句子",
+                    "type": "string"
+                }
+            }
+        },
+        "serializer.SentenceResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 2000
+                },
+                "data": {
+                    "type": "object",
+                    "$ref": "#/definitions/serializer.Sentence"
                 },
                 "message": {
                     "description": "自定义消息",

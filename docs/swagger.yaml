@@ -13,6 +13,26 @@ definitions:
         example: success
         type: string
     type: object
+  serializer.Sentence:
+    properties:
+      lines:
+        description: 句子
+        type: string
+    type: object
+  serializer.SentenceResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      data:
+        $ref: '#/definitions/serializer.Sentence'
+        type: object
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
   serializer.Topic:
     properties:
       icon:
@@ -231,6 +251,20 @@ paths:
       summary: 发送短信验证码
       tags:
       - 通用
+  /api/v1/sentence:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.SentenceResponse'
+      summary: 随机获取定场诗
+      tags:
+      - 通用
   /api/v1/topic:
     post:
       consumes:
@@ -293,7 +327,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/serializer.TopicResponse'
-      summary: 指定话题详情
+      summary: 话题详情
       tags:
       - 话题
     put:
