@@ -1,0 +1,496 @@
+definitions:
+  serializer.Response:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      data:
+        description: 响应数据
+        type: object
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
+  serializer.Topic:
+    properties:
+      icon:
+        description: 图标
+        type: string
+      image:
+        description: 背景
+        type: string
+      info:
+        description: 详情
+        type: string
+      title:
+        description: 标题
+        type: string
+    type: object
+  serializer.TopicListResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/serializer.Topic'
+        type: array
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
+  serializer.TopicResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      data:
+        $ref: '#/definitions/serializer.Topic'
+        type: object
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
+  serializer.User:
+    properties:
+      avatar:
+        description: 用户头像
+        type: string
+      createdAt:
+        description: 创建时间
+        type: integer
+      email:
+        description: 用户邮箱
+        type: string
+      id:
+        description: 用户ID
+        type: integer
+      status:
+        description: 用户状态
+        type: integer
+      username:
+        description: 用户名称
+        type: string
+    type: object
+  serializer.UserListResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/serializer.User'
+        type: array
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
+  serializer.UserResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      data:
+        $ref: '#/definitions/serializer.User'
+        description: 用户信息
+        type: object
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
+  service.SendCodeService:
+    properties:
+      mobile:
+        description: 手机号码
+        type: string
+      type:
+        description: 类型
+        type: integer
+    required:
+    - mobile
+    - type
+    type: object
+  service.TopicCreateService:
+    properties:
+      icon:
+        description: 图标
+        type: string
+      image:
+        description: 背景
+        type: string
+      info:
+        description: 详情
+        type: string
+      title:
+        description: 标题
+        type: string
+    required:
+    - icon
+    - title
+    type: object
+  service.TopicUpdateService:
+    properties:
+      icon:
+        description: 图标
+        type: string
+      image:
+        description: 背景
+        type: string
+      info:
+        description: 详情
+        type: string
+      title:
+        description: 标题
+        type: string
+    required:
+    - icon
+    - title
+    type: object
+  service.UserLoginService:
+    properties:
+      code:
+        description: 验证码
+        type: string
+      mobile:
+        description: 手机号
+        type: string
+      password:
+        description: 密码
+        type: string
+    required:
+    - mobile
+    type: object
+  service.UserRegisterService:
+    properties:
+      code:
+        description: 验证码
+        type: string
+      mobile:
+        description: 手机号码
+        type: string
+      password:
+        description: 登录密码
+        type: string
+    required:
+    - code
+    - mobile
+    - password
+    type: object
+  service.UserUpdateService:
+    properties:
+      avatar:
+        description: 头像
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      username:
+        description: 用户名
+        type: string
+    type: object
+host: 127.0.0.1:3000
+info:
+  contact: {}
+  license: {}
+  title: Island Go API
+  version: "1.0"
+paths:
+  /api/v1/code:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 验证码
+        in: body
+        name: code
+        required: true
+        schema:
+          $ref: '#/definitions/service.SendCodeService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 发送短信验证码
+      tags:
+      - 通用
+  /api/v1/topic:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 话题
+        in: body
+        name: topic
+        required: true
+        schema:
+          $ref: '#/definitions/service.TopicCreateService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.TopicResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 新建话题
+      tags:
+      - 话题
+  /api/v1/topic/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除话题
+      tags:
+      - 话题
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.TopicResponse'
+      summary: 指定话题详情
+      tags:
+      - 话题
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/service.TopicUpdateService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.TopicResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新话题
+      tags:
+      - 话题
+  /api/v1/topics:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 每页数量
+        in: query
+        name: limit
+        type: integer
+      - description: 当前页数
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.TopicListResponse'
+      summary: 话题列表
+      tags:
+      - 话题
+  /api/v1/user:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除用户
+      tags:
+      - 用户
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.UserResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 当前用户详情
+      tags:
+      - 用户
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 更新
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/service.UserUpdateService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.UserResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新用户
+      tags:
+      - 用户
+  /api/v1/user/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.UserResponse'
+      summary: 指定用户详情
+      tags:
+      - 用户
+  /api/v1/user/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 登录
+        in: body
+        name: login
+        required: true
+        schema:
+          $ref: '#/definitions/service.UserLoginService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      summary: 用户登录
+      tags:
+      - 用户
+  /api/v1/user/register:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 注册
+        in: body
+        name: register
+        required: true
+        schema:
+          $ref: '#/definitions/service.UserRegisterService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.UserResponse'
+      summary: 用户注册
+      tags:
+      - 用户
+  /api/v1/users:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 每页数量
+        in: query
+        name: limit
+        type: integer
+      - description: 当前页数
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.UserListResponse'
+      summary: 用户列表
+      tags:
+      - 用户
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: token
+    type: apiKey
+swagger: "2.0"
