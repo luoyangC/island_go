@@ -11,9 +11,10 @@ import (
 type UserListService struct{}
 
 // List 获取用户列表
-func (service *UserListService) List(c *gin.Context) ([]model.User, int, *serializer.ErrorResponse) {
-	var users []model.User
+func (service *UserListService) List(c *gin.Context) ([]*model.User, int, *serializer.ErrorResponse) {
+	var users []*model.User
 	var count int
+
 	limit, offset, err := utils.Pagination(c)
 	if err != nil {
 		return nil, 0, &serializer.ErrorResponse{
@@ -22,6 +23,7 @@ func (service *UserListService) List(c *gin.Context) ([]model.User, int, *serial
 			Error:   err.Error(),
 		}
 	}
+
 	if err := model.DB.Model(model.User{}).Count(&count).Error; err != nil {
 		return nil, 0, &serializer.ErrorResponse{
 			Code:    5000,

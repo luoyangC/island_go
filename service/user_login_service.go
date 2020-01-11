@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"island/utils"
 	"strings"
 
@@ -32,7 +31,7 @@ func (service *UserLoginService) Login() (string, *serializer.ErrorResponse) {
 		return "", &serializer.ErrorResponse{
 			Code:    4110,
 			Message: "未找到该手机号账户",
-			Error:   fmt.Sprint(err),
+			Error:   err.Error(),
 		}
 	}
 
@@ -55,7 +54,7 @@ func (service *UserLoginService) Login() (string, *serializer.ErrorResponse) {
 		return "", &serializer.ErrorResponse{
 			Code:    4112,
 			Message: "登录失败",
-			Error:   fmt.Sprint(err),
+			Error:   err.Error(),
 		}
 	} else {
 		return token, nil

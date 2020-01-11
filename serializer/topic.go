@@ -11,13 +11,13 @@ type Topic struct {
 
 type TopicResponse struct {
 	Response
-	Data Topic `json:"data"`
+	Data *Topic `json:"data"`
 }
 
 type TopicListResponse struct {
 	Response
 	Count int     `json:"count"`
-	Data  []Topic `json:"data"`
+	Data  []*Topic `json:"data"`
 }
 
 func BuildTopicResponse(topic *model.Topic) *TopicResponse {
@@ -26,7 +26,7 @@ func BuildTopicResponse(topic *model.Topic) *TopicResponse {
 			Code:    2000,
 			Message: "success",
 		},
-		Data: Topic{
+		Data: &Topic{
 			Title: topic.Title,
 			Icon:  topic.Icon,
 			Info:  topic.Info,
@@ -35,10 +35,10 @@ func BuildTopicResponse(topic *model.Topic) *TopicResponse {
 	}
 }
 
-func BuildTopicListResponse(items []model.Topic, count int) *TopicListResponse {
-	var topics []Topic
+func BuildTopicListResponse(items []*model.Topic, count int) *TopicListResponse {
+	var topics []*Topic
 	for _, item := range items {
-		topic := Topic{
+		topic := &Topic{
 			Title: item.Title,
 			Info:  item.Info,
 			Icon:  item.Icon,

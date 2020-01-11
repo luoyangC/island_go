@@ -26,7 +26,7 @@ func ErrorResponse(err error) serializer.ErrorResponse {
 				Code:    4000,
 				Data:    nil,
 				Message: fmt.Sprintf("%s%s", e.Field, e.Tag),
-				Error:   fmt.Sprint(err),
+				Error:   err.Error(),
 			}
 		}
 	}
@@ -36,7 +36,7 @@ func ErrorResponse(err error) serializer.ErrorResponse {
 			Code:    4000,
 			Data:    nil,
 			Message: "JSON类型不匹配",
-			Error:   fmt.Sprint(err),
+			Error:   err.Error(),
 		}
 	}
 
@@ -44,6 +44,6 @@ func ErrorResponse(err error) serializer.ErrorResponse {
 		Code:    9999,
 		Data:    nil,
 		Message: "未知错误",
-		Error:   fmt.Sprint(err),
+		Error:   err.Error(),
 	}
 }

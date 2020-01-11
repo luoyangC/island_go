@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"island/model"
 	"island/serializer"
 )
@@ -14,7 +13,7 @@ type TopicCreateService struct {
 }
 
 func (service *TopicCreateService) Create(id uint) (*model.Topic, *serializer.ErrorResponse) {
-	topic := &model.Topic{
+	topic := model.Topic{
 		Title:     service.Title,
 		Info:      service.Info,
 		Icon:      service.Icon,
@@ -26,9 +25,9 @@ func (service *TopicCreateService) Create(id uint) (*model.Topic, *serializer.Er
 		return nil, &serializer.ErrorResponse{
 			Code:    4125,
 			Message: "新建话题失败",
-			Error:   fmt.Sprint(err),
+			Error:   err.Error(),
 		}
 	}
 
-	return topic, nil
+	return &topic, nil
 }

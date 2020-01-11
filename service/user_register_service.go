@@ -1,7 +1,6 @@
 package service
 
 import (
-	"fmt"
 	"strings"
 
 	"island/cache"
@@ -55,7 +54,8 @@ func (service *UserRegisterService) Valid() *serializer.ErrorResponse {
 }
 
 // 用户注册
-func (service *UserRegisterService) Register() (model.User, *serializer.ErrorResponse) {
+func (service *UserRegisterService) Register() (*model.User, *serializer.ErrorResponse) {
+
 	user := model.User{
 		UserName: "用户" + service.Mobile,
 		Mobile:   service.Mobile,
@@ -64,26 +64,26 @@ func (service *UserRegisterService) Register() (model.User, *serializer.ErrorRes
 
 	// 表单验证
 	if err := service.Valid(); err != nil {
-		return user, err
+		return nil, err
 	}
 
 	// 加密密码
 	if err := user.SetPassword(service.Password); err != nil {
-		return user, &serializer.ErrorResponse{
+		return &user, &serializer.ErrorResponse{
 			Code:    4124,
 			Message: "密码加密失败",
-			Error:   fmt.Sprint(err),
+			Error:   err.Error(),
 		}
 	}
 
 	// 创建用户
 	if err := model.DB.Create(&user).Error; err != nil {
-		return user, &serializer.ErrorResponse{
+		return &user, &serializer.ErrorResponse{
 			Code:    4125,
 			Message: "注册失败",
-			Error:   fmt.Sprint(err),
+			Error:   err.Error(),
 		}
 	}
 
-	return user, nil
+	return &user, nil
 }

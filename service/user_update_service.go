@@ -21,9 +21,11 @@ func (service *UserUpdateService) Update(id uint) (*model.User, *serializer.Erro
 			Error:   err.Error(),
 		}
 	}
+
 	user.UserName = service.UserName
 	user.Email = service.Email
 	user.Avatar = service.Avatar
+
 	if err := model.DB.Save(&user).Error; err != nil {
 		return nil, &serializer.ErrorResponse{
 			Code:    5000,

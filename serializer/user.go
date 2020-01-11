@@ -17,14 +17,14 @@ type User struct {
 // 单个用户序列化
 type UserResponse struct {
 	Response
-	Data User `json:"data"` // 用户信息
+	Data *User `json:"data"` // 用户信息
 }
 
 // 用户列表序列化
 type UserListResponse struct {
 	Response
 	Count int `json:"count"`
-	Data []User `json:"data"`
+	Data []*User `json:"data"`
 }
 
 // 序列化用户响应
@@ -34,7 +34,7 @@ func BuildUserResponse(user *model.User) *UserResponse {
 			Code:    2000,
 			Message: "success",
 		},
-		Data: User{
+		Data: &User{
 			ID:        user.ID,
 			UserName:  user.UserName,
 			Status:    user.Status,
@@ -45,10 +45,10 @@ func BuildUserResponse(user *model.User) *UserResponse {
 	}
 }
 
-func BuildUserListResponse(items []model.User, count int) *UserListResponse {
-	var users []User
+func BuildUserListResponse(items []*model.User, count int) *UserListResponse {
+	var users []*User
 	for _, item := range items {
-		user := User{
+		user := &User{
 			ID:        item.ID,
 			UserName:  item.UserName,
 			Status:    item.Status,

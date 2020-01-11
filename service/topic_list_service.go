@@ -9,8 +9,8 @@ import (
 
 type TopicListService struct {}
 
-func (service *TopicListService) List(c *gin.Context) ([]model.Topic, int, *serializer.ErrorResponse) {
-	var topics []model.Topic
+func (service *TopicListService) List(c *gin.Context) ([]*model.Topic, int, *serializer.ErrorResponse) {
+	var topics []*model.Topic
 	var count int
 	limit, offset, err := utils.Pagination(c)
 	if err != nil {

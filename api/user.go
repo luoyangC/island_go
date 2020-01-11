@@ -23,7 +23,7 @@ func UserRegister(c *gin.Context) {
 	if user, err := s.Register(); err != nil {
 		c.JSON(200, err)
 	} else {
-		res := serializer.BuildUserResponse(&user)
+		res := serializer.BuildUserResponse(user)
 		c.JSON(200, res)
 	}
 }
