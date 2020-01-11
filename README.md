@@ -1,2 +1,1 @@
-# island_go
-个人小项目
+island_go
