@@ -2,12 +2,14 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-
+	"gopkg.in/go-playground/validator.v9"
 	"island/api"
 	_ "island/docs"
 	"island/middleware"
+	"island/utils"
 )
 
 // NewRouter 路由配置
@@ -17,6 +19,10 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.Cors())
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		_ = v.RegisterValidation("TopicValid", utils.TopicValid)
+	}
 
 	v1 := r.Group("/api/v1")
 

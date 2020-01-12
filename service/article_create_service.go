@@ -6,12 +6,12 @@ import (
 )
 
 type ArticleCreateService struct {
-	Title   string `json:"title" binding:"required"`   // 标题
-	Image   string `json:"image"`                      // banner图
-	Tags    string `json:"tags" binding:"required"`    // 标签
-	Profile string `json:"profile" binding:"required"` // 简介
-	Content string `json:"content" binding:"required"` // 内容
-	TopicID uint   `json:"topicId" binding:"required"` // 话题ID
+	Title   string `json:"title" binding:"required"`              // 标题
+	Image   string `json:"image"`                                 // banner图
+	Tags    string `json:"tags" binding:"required"`               // 标签
+	Profile string `json:"profile" binding:"required"`            // 简介
+	Content string `json:"content" binding:"required"`            // 内容
+	TopicID uint   `json:"topicId" binding:"required,TopicValid"` // 话题ID
 }
 
 func (service *ArticleCreateService) Create(userId uint) (*model.Article, *serializer.ErrorResponse) {

@@ -11,9 +11,9 @@ import (
 
 // 用户登录的服务
 type UserLoginService struct {
-	Mobile   string `json:"mobile" binding:"required,min=5,max=30"` // 手机号
-	Code     string `json:"code"`                                   // 验证码
-	Password string `json:"password"`                               // 密码
+	Mobile   string `json:"mobile" binding:"required,len=11"` // 手机号
+	Code     string `json:"code"`                             // 验证码
+	Password string `json:"password"`                         // 密码
 }
 
 // Login 用户登录函数

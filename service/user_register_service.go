@@ -10,8 +10,8 @@ import (
 
 // 用户注册服务
 type UserRegisterService struct {
-	Mobile   string `json:"mobile" binding:"required,min=11,max=11"`  // 手机号码
-	Code     string `json:"code" binding:"required,min=6,max=6"`      // 验证码
+	Mobile   string `json:"mobile" binding:"required,len=11"`         // 手机号码
+	Code     string `json:"code" binding:"required,len=6"`            // 验证码
 	Password string `json:"password" binding:"required,min=8,max=40"` // 登录密码
 }
 

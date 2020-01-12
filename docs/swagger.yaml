@@ -6,7 +6,7 @@ definitions:
         type: string
       createdAt:
         description: 创建时间
-        type: integer
+        type: string
       creator:
         $ref: '#/definitions/serializer.User'
         description: 作者
@@ -37,7 +37,7 @@ definitions:
     properties:
       createdAt:
         description: 创建时间
-        type: integer
+        type: string
       creatorAvatar:
         description: 作者头像
         type: string
@@ -182,7 +182,7 @@ definitions:
         type: string
       createdAt:
         description: 创建时间
-        type: integer
+        type: string
       email:
         description: 用户邮箱
         type: string
@@ -280,7 +280,6 @@ definitions:
     - profile
     - tags
     - title
-    - topicId
     type: object
   service.SendCodeService:
     properties:

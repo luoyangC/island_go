@@ -8,8 +8,8 @@ import (
 )
 
 type SendCodeService struct {
-	Type   int    `json:"type" binding:"required"`                 // 类型
-	Mobile string `json:"mobile" binding:"required,min=11,max=11"` // 手机号码
+	Type   int    `json:"type" binding:"required,oneof=1 2"` // 类型
+	Mobile string `json:"mobile" binding:"required,len=11"`  // 手机号码
 }
 
 func (service *SendCodeService) Valid() *serializer.ErrorResponse {

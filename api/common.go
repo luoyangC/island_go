@@ -22,7 +22,7 @@ func ErrorResponse(err error) serializer.ErrorResponse {
 		return serializer.ErrorResponse{
 			Code:    4000,
 			Data:    nil,
-			Message: "参数错误",
+			Message: "参数验证错误",
 			Error:   err.Error(),
 		}
 	}
@@ -31,7 +31,16 @@ func ErrorResponse(err error) serializer.ErrorResponse {
 		return serializer.ErrorResponse{
 			Code:    4000,
 			Data:    nil,
-			Message: "JSON类型不匹配",
+			Message: "参数类型错误",
+			Error:   err.Error(),
+		}
+	}
+
+	if _, ok := err.(*json.SyntaxError); ok {
+		return serializer.ErrorResponse{
+			Code:    4000,
+			Data:    nil,
+			Message: "JSON格式错误",
 			Error:   err.Error(),
 		}
 	}

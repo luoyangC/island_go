@@ -673,7 +673,7 @@
                 },
                 "createdAt": {
                     "description": "创建时间",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "creator": {
                     "description": "作者",
@@ -713,7 +713,7 @@
             "properties": {
                 "createdAt": {
                     "description": "创建时间",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "creatorAvatar": {
                     "description": "作者头像",
@@ -908,7 +908,7 @@
                 },
                 "createdAt": {
                     "description": "创建时间",
-                    "type": "integer"
+                    "type": "string"
                 },
                 "email": {
                     "description": "用户邮箱",
@@ -1014,8 +1014,7 @@
                 "content",
                 "profile",
                 "tags",
-                "title",
-                "topicId"
+                "title"
             ],
             "properties": {
                 "content": {
