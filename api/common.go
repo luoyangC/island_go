@@ -2,9 +2,7 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
-
-	"gopkg.in/go-playground/validator.v8"
+	"gopkg.in/go-playground/validator.v9"
 
 	"island/serializer"
 )
@@ -20,14 +18,12 @@ func Response(data interface{}) serializer.Response {
 
 // 错误响应
 func ErrorResponse(err error) serializer.ErrorResponse {
-	if ve, ok := err.(validator.ValidationErrors); ok {
-		for _, e := range ve {
-			return serializer.ErrorResponse{
-				Code:    4000,
-				Data:    nil,
-				Message: fmt.Sprintf("%s%s", e.Field, e.Tag),
-				Error:   err.Error(),
-			}
+	if _, ok := err.(validator.ValidationErrors); ok {
+		return serializer.ErrorResponse{
+			Code:    4000,
+			Data:    nil,
+			Message: "参数错误",
+			Error:   err.Error(),
 		}
 	}
 

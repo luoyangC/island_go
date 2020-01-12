@@ -24,7 +24,7 @@ func (service *TopicDeleteService) Delete(id string, userId uint) *serializer.Er
 	}
 	if err := model.DB.Delete(&topic).Error; err != nil {
 		return &serializer.ErrorResponse{
-			Code:    5000,
+			Code:    5001,
 			Message: "删除失败",
 			Error:   err.Error(),
 		}

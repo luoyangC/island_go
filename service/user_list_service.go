@@ -18,7 +18,7 @@ func (service *UserListService) List(c *gin.Context) ([]*model.User, int, *seria
 	limit, offset, err := utils.Pagination(c)
 	if err != nil {
 		return nil, 0, &serializer.ErrorResponse{
-			Code:    5000,
+			Code:    4000,
 			Message: "错误的分页",
 			Error:   err.Error(),
 		}
@@ -26,14 +26,14 @@ func (service *UserListService) List(c *gin.Context) ([]*model.User, int, *seria
 
 	if err := model.DB.Model(model.User{}).Count(&count).Error; err != nil {
 		return nil, 0, &serializer.ErrorResponse{
-			Code:    5000,
+			Code:    5001,
 			Message: "数据库查询错误",
 			Error:   err.Error(),
 		}
 	}
 	if err := model.DB.Offset(offset).Limit(limit).Find(&users).Error; err != nil {
 		return nil, 0, &serializer.ErrorResponse{
-			Code:    5000,
+			Code:    5001,
 			Message: "数据库查询错误",
 			Error:   err.Error(),
 		}

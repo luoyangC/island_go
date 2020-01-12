@@ -13,7 +13,7 @@ func (service *RandomSentenceService) Get() (*model.Sentence, *serializer.ErrorR
 	var count int
 	if err := model.DB.Model(model.Sentence{}).Count(&count).Error; err != nil {
 		return nil, &serializer.ErrorResponse{
-			Code:    5000,
+			Code:    5001,
 			Message: "数据库查询错误",
 			Error:   err.Error(),
 		}

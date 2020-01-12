@@ -18,7 +18,7 @@ func (service *UserDeleteService) Delete(id uint) *serializer.ErrorResponse {
 	}
 	if err := model.DB.Delete(&user).Error; err != nil {
 		return &serializer.ErrorResponse{
-			Code:    5000,
+			Code:    5001,
 			Message: "删除用户失败",
 			Error:   err.Error(),
 		}

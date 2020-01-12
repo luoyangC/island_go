@@ -26,6 +26,6 @@ require (
 	golang.org/x/sys v0.0.0-20200103143344-a1369afcdac7 // indirect
 	golang.org/x/tools v0.0.0-20200102200121-6de373a2766c // indirect
 	gopkg.in/go-playground/validator.v8 v8.18.2
-	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
+	gopkg.in/go-playground/validator.v9 v9.31.0
 	gopkg.in/yaml.v2 v2.2.7 // indirect
 )

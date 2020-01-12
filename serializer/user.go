@@ -2,16 +2,17 @@ package serializer
 
 import (
 	"island/model"
+	"time"
 )
 
 // 用户序列化器
 type User struct {
-	ID        uint   `form:"id" json:"id"`         // 用户ID
-	UserName  string `form:"name" json:"username"` // 用户名称
-	Status    int    `json:"status"`               // 用户状态
-	Avatar    string `json:"avatar"`               // 用户头像
-	Email     string `json:"email"`                // 用户邮箱
-	CreatedAt int64  `json:"createdAt"`            // 创建时间
+	ID        uint      `form:"id" json:"id"`         // 用户ID
+	UserName  string    `form:"name" json:"username"` // 用户名称
+	Status    int       `json:"status"`               // 用户状态
+	Avatar    string    `json:"avatar"`               // 用户头像
+	Email     string    `json:"email"`                // 用户邮箱
+	CreatedAt time.Time `json:"createdAt"`            // 创建时间
 }
 
 // 单个用户序列化
@@ -23,8 +24,8 @@ type UserResponse struct {
 // 用户列表序列化
 type UserListResponse struct {
 	Response
-	Count int `json:"count"`
-	Data []*User `json:"data"`
+	Count int     `json:"count"`
+	Data  []*User `json:"data"`
 }
 
 // 序列化用户响应
@@ -40,7 +41,7 @@ func BuildUserResponse(user *model.User) *UserResponse {
 			Status:    user.Status,
 			Avatar:    user.Avatar,
 			Email:     user.Email,
-			CreatedAt: user.CreatedAt.Unix(),
+			CreatedAt: user.CreatedAt,
 		},
 	}
 }
@@ -54,7 +55,7 @@ func BuildUserListResponse(items []*model.User, count int) *UserListResponse {
 			Status:    item.Status,
 			Avatar:    item.Avatar,
 			Email:     item.Email,
-			CreatedAt: item.CreatedAt.Unix(),
+			CreatedAt: item.CreatedAt,
 		}
 		users = append(users, user)
 	}
@@ -63,7 +64,7 @@ func BuildUserListResponse(items []*model.User, count int) *UserListResponse {
 			Code:    2000,
 			Message: "success",
 		},
-		Count:count,
-		Data: users,
+		Count: count,
+		Data:  users,
 	}
 }

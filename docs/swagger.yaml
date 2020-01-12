@@ -1,4 +1,100 @@
 definitions:
+  serializer.Article:
+    properties:
+      content:
+        description: 内容
+        type: string
+      createdAt:
+        description: 创建时间
+        type: integer
+      creator:
+        $ref: '#/definitions/serializer.User'
+        description: 作者
+        type: object
+      image:
+        description: banner图
+        type: string
+      profile:
+        description: 简介
+        type: string
+      tags:
+        description: 标签
+        type: string
+      title:
+        description: 标题
+        type: string
+      topic:
+        $ref: '#/definitions/serializer.Topic'
+        description: 话题
+        type: object
+    required:
+    - content
+    - profile
+    - tags
+    - title
+    type: object
+  serializer.ArticleItem:
+    properties:
+      createdAt:
+        description: 创建时间
+        type: integer
+      creatorAvatar:
+        description: 作者头像
+        type: string
+      creatorName:
+        description: 作者名字
+        type: string
+      image:
+        description: banner图
+        type: string
+      profile:
+        description: 简介
+        type: string
+      tags:
+        description: 标签
+        type: string
+      title:
+        description: 标题
+        type: string
+      topicName:
+        description: 话题名称
+        type: string
+    required:
+    - profile
+    - tags
+    - title
+    type: object
+  serializer.ArticleListResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/serializer.ArticleItem'
+        type: array
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
+  serializer.ArticleResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      data:
+        $ref: '#/definitions/serializer.Article'
+        type: object
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
   serializer.Response:
     properties:
       code:
@@ -132,6 +228,60 @@ definitions:
         example: success
         type: string
     type: object
+  service.ArticleCreateService:
+    properties:
+      content:
+        description: 内容
+        type: string
+      image:
+        description: banner图
+        type: string
+      profile:
+        description: 简介
+        type: string
+      tags:
+        description: 标签
+        type: string
+      title:
+        description: 标题
+        type: string
+      topicId:
+        description: 话题ID
+        type: integer
+    required:
+    - content
+    - profile
+    - tags
+    - title
+    - topicId
+    type: object
+  service.ArticleUpdateService:
+    properties:
+      content:
+        description: 内容
+        type: string
+      image:
+        description: banner图
+        type: string
+      profile:
+        description: 简介
+        type: string
+      tags:
+        description: 标签
+        type: string
+      title:
+        description: 标题
+        type: string
+      topicId:
+        description: 话题ID
+        type: integer
+    required:
+    - content
+    - profile
+    - tags
+    - title
+    - topicId
+    type: object
   service.SendCodeService:
     properties:
       mobile:
@@ -229,6 +379,122 @@ info:
   title: Island Go API
   version: "1.0"
 paths:
+  /api/v1/article:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 文章
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/service.ArticleCreateService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.ArticleResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 新建文章
+      tags:
+      - 文章
+  /api/v1/article/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除文章
+      tags:
+      - 文章
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.ArticleResponse'
+      summary: 文章详情
+      tags:
+      - 文章
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/service.ArticleUpdateService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.ArticleResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新文章
+      tags:
+      - 文章
+  /api/v1/articles:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 每页数量
+        in: query
+        name: limit
+        type: integer
+      - description: 当前页数
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.ArticleListResponse'
+      summary: 文章列表
+      tags:
+      - 文章
   /api/v1/code:
     post:
       consumes:

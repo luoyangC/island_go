@@ -25,7 +25,7 @@ func JWTAuth() gin.HandlerFunc {
 		claims, err := j.ParseToken(token)
 		if err != nil {
 			c.JSON(200, serializer.ErrorResponse{
-				Code:    5000,
+				Code:    5002,
 				Message: "解析Token失败",
 				Error:   err.Error(),
 			})

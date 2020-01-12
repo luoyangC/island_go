@@ -30,15 +30,20 @@ func NewRouter() *gin.Engine {
 		v1.POST("user/register", api.UserRegister)
 		// 用户登录
 		v1.POST("user/login", api.UserLogin)
-		// 获取指定用户详情
-		v1.GET("user/:id", api.UserDetail)
 		// 获取用户列表
 		v1.GET("users", api.UserList)
+		// 获取指定用户详情
+		v1.GET("user/:id", api.UserDetail)
 
-		// 获取话题详情
-		v1.GET("topic/:id", api.TopicDetail)
 		// 获取话题列表
 		v1.GET("topics", api.TopicList)
+		// 获取话题详情
+		v1.GET("topic/:id", api.TopicDetail)
+
+		// 获取文章列表
+		v1.GET("articles", api.ArticleList)
+		// 获取文章详情
+		v1.GET("article/:id", api.ArticleDetail)
 	}
 
 	// 需要登录保护的
@@ -57,6 +62,13 @@ func NewRouter() *gin.Engine {
 		v1.PUT("topic/:id", api.TopicUpdate)
 		// 删除话题
 		v1.DELETE("topic/:id", api.TopicDelete)
+
+		// 新建文章
+		v1.POST("article", api.ArticleCreate)
+		// 更新文章
+		v1.PUT("article/:id", api.ArticleUpdate)
+		// 删除文章
+		v1.DELETE("article/:id", api.ArticleDelete)
 	}
 	return r
 }

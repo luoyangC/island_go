@@ -28,7 +28,7 @@ func (service *UserUpdateService) Update(id uint) (*model.User, *serializer.Erro
 
 	if err := model.DB.Save(&user).Error; err != nil {
 		return nil, &serializer.ErrorResponse{
-			Code:    5000,
+			Code:    5001,
 			Message: "数据库保存出错",
 			Error:   err.Error(),
 		}

@@ -23,7 +23,7 @@ func (service *TopicCreateService) Create(id uint) (*model.Topic, *serializer.Er
 
 	if err := model.DB.Create(&topic).Error; err != nil {
 		return nil, &serializer.ErrorResponse{
-			Code:    4125,
+			Code:    5001,
 			Message: "新建话题失败",
 			Error:   err.Error(),
 		}
