@@ -19,12 +19,10 @@ type Article struct {
 type ArticleItem struct {
 	Title         string    `json:"title" binding:"required"`   // 标题
 	Image         string    `json:"image"`                      // banner图
-	Tags          string    `json:"tags" binding:"required"`    // 标签
 	Profile       string    `json:"profile" binding:"required"` // 简介
 	CreatedAt     time.Time `json:"createdAt"`                  // 创建时间
 	TopicName     string    `json:"topicName"`                  // 话题名称
 	CreatorName   string    `json:"creatorName"`                // 作者名字
-	CreatorAvatar string    `json:"creatorAvatar"`              // 作者头像
 }
 
 type ArticleResponse struct {

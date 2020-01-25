@@ -226,6 +226,76 @@
                 }
             }
         },
+        "/api/v1/message": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "留言"
+                ],
+                "summary": "添加留言",
+                "parameters": [
+                    {
+                        "description": "文章",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/service.MessageCreateService"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/messages": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "留言"
+                ],
+                "summary": "留言列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "每页数量",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "当前页数",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.MessageListResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/sentence": {
             "get": {
                 "consumes": [
@@ -707,16 +777,11 @@
             "type": "object",
             "required": [
                 "profile",
-                "tags",
                 "title"
             ],
             "properties": {
                 "createdAt": {
                     "description": "创建时间",
-                    "type": "string"
-                },
-                "creatorAvatar": {
-                    "description": "作者头像",
                     "type": "string"
                 },
                 "creatorName": {
@@ -729,10 +794,6 @@
                 },
                 "profile": {
                     "description": "简介",
-                    "type": "string"
-                },
-                "tags": {
-                    "description": "标签",
                     "type": "string"
                 },
                 "title": {
@@ -780,6 +841,66 @@
                 "data": {
                     "type": "object",
                     "$ref": "#/definitions/serializer.Article"
+                },
+                "message": {
+                    "description": "自定义消息",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "serializer.Message": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "用户头像",
+                    "type": "string"
+                },
+                "content": {
+                    "description": "留言内容",
+                    "type": "string"
+                },
+                "nickName": {
+                    "description": "用户昵称",
+                    "type": "string"
+                }
+            }
+        },
+        "serializer.MessageListResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 2000
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/serializer.Message"
+                    }
+                },
+                "message": {
+                    "description": "自定义消息",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
+        "serializer.MessageResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 2000
+                },
+                "data": {
+                    "type": "object",
+                    "$ref": "#/definitions/serializer.Message"
                 },
                 "message": {
                     "description": "自定义消息",
@@ -1040,6 +1161,31 @@
                 "topicId": {
                     "description": "话题ID",
                     "type": "integer"
+                }
+            }
+        },
+        "service.MessageCreateService": {
+            "type": "object",
+            "required": [
+                "content",
+                "nickName"
+            ],
+            "properties": {
+                "content": {
+                    "description": "留言内容",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "邮箱",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "电话",
+                    "type": "string"
+                },
+                "nickName": {
+                    "description": "用户昵称",
+                    "type": "string"
                 }
             }
         },

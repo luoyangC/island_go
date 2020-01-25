@@ -50,6 +50,11 @@ func NewRouter() *gin.Engine {
 		v1.GET("articles", api.ArticleList)
 		// 获取文章详情
 		v1.GET("article/:id", api.ArticleDetail)
+
+		// 添加留言
+		v1.POST("message", api.MessageCreate)
+		// 留言列表
+		v1.GET("messages", api.MessageList)
 	}
 
 	// 需要登录保护的

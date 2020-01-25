@@ -38,9 +38,6 @@ definitions:
       createdAt:
         description: 创建时间
         type: string
-      creatorAvatar:
-        description: 作者头像
-        type: string
       creatorName:
         description: 作者名字
         type: string
@@ -50,9 +47,6 @@ definitions:
       profile:
         description: 简介
         type: string
-      tags:
-        description: 标签
-        type: string
       title:
         description: 标题
         type: string
@@ -61,7 +55,6 @@ definitions:
         type: string
     required:
     - profile
-    - tags
     - title
     type: object
   serializer.ArticleListResponse:
@@ -89,6 +82,49 @@ definitions:
         type: integer
       data:
         $ref: '#/definitions/serializer.Article'
+        type: object
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
+  serializer.Message:
+    properties:
+      avatar:
+        description: 用户头像
+        type: string
+      content:
+        description: 留言内容
+        type: string
+      nickName:
+        description: 用户昵称
+        type: string
+    type: object
+  serializer.MessageListResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/serializer.Message'
+        type: array
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
+  serializer.MessageResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      data:
+        $ref: '#/definitions/serializer.Message'
         type: object
       message:
         description: 自定义消息
@@ -280,6 +316,24 @@ definitions:
     - profile
     - tags
     - title
+    type: object
+  service.MessageCreateService:
+    properties:
+      content:
+        description: 留言内容
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      mobile:
+        description: 电话
+        type: string
+      nickName:
+        description: 用户昵称
+        type: string
+    required:
+    - content
+    - nickName
     type: object
   service.SendCodeService:
     properties:
@@ -516,6 +570,51 @@ paths:
       summary: 发送短信验证码
       tags:
       - 通用
+  /api/v1/message:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 文章
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/service.MessageCreateService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.MessageResponse'
+      summary: 添加留言
+      tags:
+      - 留言
+  /api/v1/messages:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 每页数量
+        in: query
+        name: limit
+        type: integer
+      - description: 当前页数
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.MessageListResponse'
+      summary: 留言列表
+      tags:
+      - 留言
   /api/v1/sentence:
     get:
       consumes:
