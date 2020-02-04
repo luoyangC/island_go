@@ -93,7 +93,12 @@ func UserDetail(c *gin.Context) {
 // @Router /api/v1/users [get]
 func UserList(c *gin.Context) {
 	var s service.UserListService
-	if users, count, err := s.List(c); err != nil {
+	limit, offset, err := utils.Pagination(c)
+	if err != nil {
+		c.JSON(200, err)
+		return
+	}
+	if users, count, err := s.List(limit, offset); err != nil {
 		c.JSON(200, err)
 	} else {
 		res := serializer.BuildUserListResponse(users, count)

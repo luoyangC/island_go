@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"island/serializer"
 	"island/service"
+	"island/utils"
 )
 
 // @Summary 添加留言
@@ -19,7 +20,7 @@ func MessageCreate(c *gin.Context) {
 		c.JSON(200, ErrorResponse(err))
 		return
 	}
-	if message, err := s.Create(c); err != nil {
+	if message, err := s.Create(c.ClientIP()); err != nil {
 		c.JSON(200, err)
 	} else {
 		res := serializer.BuildMessageResponse(message)
@@ -37,7 +38,12 @@ func MessageCreate(c *gin.Context) {
 // @Router /api/v1/messages [get]
 func MessageList(c *gin.Context)  {
 	var s service.MessageListService
-	if messages, count, err := s.List(c); err != nil {
+	limit, offset, err := utils.Pagination(c)
+	if err != nil {
+		c.JSON(200, err)
+		return
+	}
+	if messages, count, err := s.List(limit, offset); err != nil {
 		c.JSON(200, err)
 	} else {
 		res := serializer.BuildMessageListResponse(messages, count)

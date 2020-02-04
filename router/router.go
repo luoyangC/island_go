@@ -55,6 +55,10 @@ func NewRouter() *gin.Engine {
 		v1.POST("message", api.MessageCreate)
 		// 留言列表
 		v1.GET("messages", api.MessageList)
+
+		// 收藏列表
+		v1.GET("collection/:id", api.CollectionList)
+
 	}
 
 	// 需要登录保护的
@@ -80,6 +84,11 @@ func NewRouter() *gin.Engine {
 		v1.PUT("article/:id", api.ArticleUpdate)
 		// 删除文章
 		v1.DELETE("article/:id", api.ArticleDelete)
+
+		// 添加或取消收藏
+		v1.PUT("collection", api.CollectionUpdate)
+		// 获取自己的收藏列表
+		v1.GET("collection", api.CollectionList)
 	}
 	return r
 }

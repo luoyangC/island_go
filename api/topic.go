@@ -41,7 +41,12 @@ func TopicCreate(c *gin.Context) {
 // @Router /api/v1/topics [get]
 func TopicList(c *gin.Context)  {
 	var s service.TopicListService
-	if topics, count, err := s.List(c); err != nil {
+	limit, offset, err := utils.Pagination(c)
+	if err != nil {
+		c.JSON(200, err)
+		return
+	}
+	if topics, count, err := s.List(limit, offset); err != nil {
 		c.JSON(200, err)
 	} else {
 		res := serializer.BuildTopicListResponse(topics, count)

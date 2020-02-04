@@ -12,13 +12,13 @@ type TopicCreateService struct {
 	Image string `json:"image"`                    // 背景
 }
 
-func (service *TopicCreateService) Create(id uint) (*model.Topic, *serializer.ErrorResponse) {
+func (service *TopicCreateService) Create(userId uint) (*model.Topic, *serializer.ErrorResponse) {
 	topic := model.Topic{
 		Title:     service.Title,
 		Info:      service.Info,
 		Icon:      service.Icon,
 		Image:     service.Image,
-		CreatorID: id,
+		CreatorID: userId,
 	}
 
 	if err := model.DB.Create(&topic).Error; err != nil {

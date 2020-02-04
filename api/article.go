@@ -41,7 +41,12 @@ func ArticleCreate(c *gin.Context) {
 // @Router /api/v1/articles [get]
 func ArticleList(c *gin.Context)  {
 	var s service.ArticleListService
-	if articles, count, err := s.List(c); err != nil {
+	limit, offset, err := utils.Pagination(c)
+	if err != nil {
+		c.JSON(200, err)
+		return
+	}
+	if articles, count, err := s.List(limit, offset); err != nil {
 		c.JSON(200, err)
 	} else {
 		res := serializer.BuildArticleListResponse(articles, count)

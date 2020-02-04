@@ -1,25 +1,14 @@
 package service
 
 import (
-	"github.com/gin-gonic/gin"
-
 	"island/model"
 	"island/serializer"
-	"island/utils"
 )
 
 type MessageListService struct{}
 
-func (service *MessageListService) List(c *gin.Context) ([]*serializer.Message, int, *serializer.ErrorResponse) {
+func (service *MessageListService) List(limit int, offset int) ([]*serializer.Message, int, *serializer.ErrorResponse) {
 	var count int
-	limit, offset, err := utils.Pagination(c)
-	if err != nil {
-		return nil, 0, &serializer.ErrorResponse{
-			Code:    4000,
-			Message: "错误的分页",
-			Error:   err.Error(),
-		}
-	}
 	if err := model.DB.Model(model.Message{}).Count(&count).Error; err != nil {
 		return nil, 0, &serializer.ErrorResponse{
 			Code:    5001,

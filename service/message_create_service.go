@@ -1,7 +1,6 @@
 package service
 
 import (
-	"github.com/gin-gonic/gin"
 	"island/model"
 	"island/serializer"
 )
@@ -13,14 +12,14 @@ type MessageCreateService struct {
 	NickName string `json:"nickName" binding:"required"` // 用户昵称
 }
 
-func (service *MessageCreateService) Create(c *gin.Context) (*model.Message, *serializer.ErrorResponse) {
+func (service *MessageCreateService) Create(clientIP string) (*model.Message, *serializer.ErrorResponse) {
 
 	message := model.Message{
 		Content:  service.Content,
 		Email:    service.Email,
 		Mobile:   service.Mobile,
 		NickName: service.NickName,
-		ClientIP: c.ClientIP(),
+		ClientIP: clientIP,
 	}
 
 	if err := model.DB.Create(&message).Error; err != nil {
