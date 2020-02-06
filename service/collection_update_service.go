@@ -24,10 +24,17 @@ func (service *CollectionUpdateService) Create(userId uint) *serializer.ErrorRes
 		ArticleID: service.ArticleID,
 		CreatorID: userId,
 	}
-	if err := model.DB.Create(&collection).Error; err != nil {
+	if err := model.DB.Unscoped().Where(&collection).FirstOrCreate(&collection).Error; err != nil {
 		return &serializer.ErrorResponse{
 			Code:    5001,
-			Message: "收藏失败",
+			Message: "新增收藏失败",
+			Error:   err.Error(),
+		}
+	}
+	if err := model.DB.Model(&collection).Unscoped().Update("deleted_at", nil).Error; err != nil {
+		return &serializer.ErrorResponse{
+			Code:    5001,
+			Message: "重新收藏失败",
 			Error:   err.Error(),
 		}
 	}
@@ -39,7 +46,7 @@ func (service *CollectionUpdateService) Delete(userId uint) *serializer.ErrorRes
 		ArticleID: service.ArticleID,
 		CreatorID: userId,
 	}
-	if err := model.DB.First(&collection).Error; err != nil {
+	if err := model.DB.Where(&collection).First(&collection).Error; err != nil {
 		return &serializer.ErrorResponse{
 			Code:    4004,
 			Message: "该用户未收藏该文章",
