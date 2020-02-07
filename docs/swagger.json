@@ -308,6 +308,91 @@
                 }
             }
         },
+        "/api/v1/like": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "点赞"
+                ],
+                "summary": "点赞列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每页数量",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "当前页数",
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.LikeListResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "点赞"
+                ],
+                "summary": "设置或取消点赞",
+                "parameters": [
+                    {
+                        "description": "点赞",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/service.LikeUpdateService"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.MessageResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/message": {
             "post": {
                 "consumes": [
@@ -972,6 +1057,45 @@
                 }
             }
         },
+        "serializer.Like": {
+            "type": "object",
+            "properties": {
+                "creatorId": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "type": {
+                    "description": "类型",
+                    "type": "string"
+                }
+            }
+        },
+        "serializer.LikeListResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "状态码",
+                    "type": "integer",
+                    "example": 2000
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/serializer.Like"
+                    }
+                },
+                "message": {
+                    "description": "自定义消息",
+                    "type": "string",
+                    "example": "success"
+                }
+            }
+        },
         "serializer.Message": {
             "type": "object",
             "properties": {
@@ -1300,6 +1424,23 @@
                 "collection": {
                     "description": "收藏",
                     "type": "boolean"
+                }
+            }
+        },
+        "service.LikeUpdateService": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "点赞ID",
+                    "type": "integer"
+                },
+                "like": {
+                    "description": "点赞状态",
+                    "type": "boolean"
+                },
+                "type": {
+                    "description": "点赞类型",
+                    "type": "string"
                 }
             }
         },

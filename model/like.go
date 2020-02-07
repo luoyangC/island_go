@@ -12,3 +12,10 @@ type Like struct {
 	Creator   User   `gorm:"ForeignKey:CreatorID"`
 	CreatorID uint   `gorm:"not null;index"`
 }
+
+const (
+	// 点赞文章
+	LikeArticle string = "article"
+	// 点赞评论
+	LikeComment string = "comment"
+)

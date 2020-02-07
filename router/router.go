@@ -89,6 +89,11 @@ func NewRouter() *gin.Engine {
 		v1.PUT("collection", api.CollectionUpdate)
 		// 获取自己的收藏列表
 		v1.GET("collection", api.CollectionList)
+
+		// 添加或取消点赞
+		v1.PUT("like", api.LikeUpdate)
+		// 获取自己的点赞列表
+		v1.GET("like", api.LikeList)
 	}
 	return r
 }

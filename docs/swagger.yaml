@@ -117,6 +117,33 @@ definitions:
         example: success
         type: string
     type: object
+  serializer.Like:
+    properties:
+      creatorId:
+        type: string
+      id:
+        type: string
+      type:
+        description: 类型
+        type: string
+    type: object
+  serializer.LikeListResponse:
+    properties:
+      code:
+        description: 状态码
+        example: 2000
+        type: integer
+      count:
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/serializer.Like'
+        type: array
+      message:
+        description: 自定义消息
+        example: success
+        type: string
+    type: object
   serializer.Message:
     properties:
       avatar:
@@ -356,6 +383,18 @@ definitions:
         type: boolean
     required:
     - articleID
+    type: object
+  service.LikeUpdateService:
+    properties:
+      id:
+        description: 点赞ID
+        type: integer
+      like:
+        description: 点赞状态
+        type: boolean
+      type:
+        description: 点赞类型
+        type: string
     type: object
   service.MessageCreateService:
     properties:
@@ -662,6 +701,59 @@ paths:
       summary: 收藏列表
       tags:
       - 收藏
+  /api/v1/like:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 每页数量
+        in: query
+        name: limit
+        type: integer
+      - description: 当前页数
+        in: query
+        name: page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.LikeListResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 点赞列表
+      tags:
+      - 点赞
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 点赞
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/service.LikeUpdateService'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/serializer.MessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 设置或取消点赞
+      tags:
+      - 点赞
   /api/v1/message:
     post:
       consumes:
